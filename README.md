@@ -15,7 +15,7 @@ This project provides a robust computational pipeline to analyze brain-wide expe
 * `output/`: Generated Excel tables, CSVs, and high-resolution Quad/Correlation plots.
 
 ## Data Availability
-Due to file size limits, raw .nii.gz voluments maps and heavy .parquet files are hosted externally. Please download the dataset and place it in the `data/` directory before running the scripts.
+Due to file size limits, raw .nii.gz voluments maps and heavy .parquet files are hosted externally on https://zenodo.org/records/23091056. Please download the dataset and place it in the `data/` directory before running the scripts.
 
 ## Installation
 Ensure you have Python 3.9+ installed. Clone this repository and install the dependencies:
