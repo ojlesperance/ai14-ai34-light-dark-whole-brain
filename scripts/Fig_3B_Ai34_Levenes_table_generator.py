@@ -1,4 +1,5 @@
-#Log2 SD Ratio (Light/Dark)  master table generator: Ai34 @ multiple q-value cutoffs from .nii.gz -> .parquet map conversions
+# Log2 SD Ratio (Light/Dark)  master table generator: Ai34 @ multiple q-value cutoffs from .nii.gz -> .parquet map conversions
+
 import pandas as pd
 import numpy as np
 import pyarrow.parquet as pq
@@ -7,31 +8,31 @@ import os
 # ==========================================
 # 1. FILE PATHS & SETUP (Ai34 Levene)
 # ==========================================
-input_file = r"C:\Users\ojles\Documents\Ai34_Project\corrected_df34_full.parquet"
-csv_info_file = r"C:\Users\ojles\Documents\Ai34_Project\CCFv3-2020_info_oliver_voxel_info.csv" 
+input_file = r"..\data\corrected_df34_full.parquet"
+csv_info_file = r"..\data\CCFv3-2020_info_oliver_voxel_info.csv" 
 
-out_table1 = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Table1_RegionY_Allen.html"
-out_table2 = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Table2_Isocortex_Allen.html"
-out_table3 = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Table3_All_Subregions_Allen.html"
-out_table4 = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Table4_Condensed_Groups.html"
-out_table5 = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Table5_Cortical_Layers.html"
-out_excel_master = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Master_Tables.xlsx"
-out_csv1 = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Mouse_Zscores_Condensed.csv"
-out_csv2 = r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_Mouse_Zscores_Layers.csv"
+out_table1 = r"..\output\Ai34_Levene_Table1_RegionY_Allen.html"
+out_table2 = r"..\output\Ai34_Levene_Table2_Isocortex_Allen.html"
+out_table3 = r"..\output\Ai34_Levene_Table3_All_Subregions_Allen.html"
+out_table4 = r"..\output\Ai34_Levene_Table4_Condensed_Groups.html"
+out_table5 = r"..\output\Ai34_Levene_Table5_Cortical_Layers.html"
+out_excel_master = r"..\output\Ai34_Levene_Master_Tables.xlsx"
+out_csv1 = r"..\output\Ai34_Levene_Mouse_Zscores_Condensed.csv"
+out_csv2 = r"..\output\Ai34_Levene_Mouse_Zscores_Layers.csv"
 
 # ==========================================
 # 2. SIGNIFICANCE CLUSTER MASKS (Ai34 LEVENE)
 # ==========================================
 CLUSTER_FILES = {
-    'L_q05': r"C:\Users\ojles\Documents\Ai34_Project\Missing_File.parquet",
-    'L_q10': r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_LgtD_q01.parquet",
-    'L_q15': r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_LgtD_q015.parquet",
-    'L_q20': r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_LgtD_q02.parquet",
+    'L_q05': r"..\output\Missing_File.parquet",
+    'L_q10': r"..\output\Ai34_Levene_LgtD_q01.parquet",
+    'L_q15': r"..\output\Ai34_Levene_LgtD_q015.parquet",
+    'L_q20': r"..\output\Ai34_Levene_LgtD_q02.parquet",
     
-    'D_q05': r"C:\Users\ojles\Documents\Ai34_Project\Missing_File.parquet",
-    'D_q10': r"C:\Users\ojles\Documents\Ai34_Project\Missing_File.parquet",
-    'D_q15': r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_DgtL_q015.parquet",
-    'D_q20': r"C:\Users\ojles\Documents\Ai34_Project\Ai34_Levene_DgtL_q02.parquet"
+    'D_q05': r"..\output\Missing_File.parquet",
+    'D_q10': r"..\output\Missing_File.parquet",
+    'D_q15': r"..\output\Ai34_Levene_DgtL_q015.parquet",
+    'D_q20': r"..\output\Ai34_Levene_DgtL_q02.parquet"
 }
 
 # ==========================================

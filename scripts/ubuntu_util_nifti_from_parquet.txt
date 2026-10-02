@@ -1,0 +1,6 @@
+#To run in Ubuntu, not Jupyter - generates .parquet file from .nii.gz file 
+
+python /mnt/c/data/nii_to_parquet.py \
+  -i /mnt/c/data/vstats_v3_vox_p_tstat2_q02_rev_cluster_index.nii.gz \
+  -c "L_gt_D_clusters" \
+  -o /mnt/c/data/Ai34_Project/Ai34_LgtD_q02.parquet

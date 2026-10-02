@@ -1,6 +1,9 @@
 """
-Utility functions for Allen Brain Atlas (CCFv3) mapping, base grouping, and visualization.
+Utility functions for .parquet row checking, Allen Brain Atlas (CCFv3) mapping, base grouping, and visualization.
 """
+
+
+
 
 ALLEN_BASE_COLORS = {
     'Isocortex': '#66C2A5', 

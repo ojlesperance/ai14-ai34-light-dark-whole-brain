@@ -1,4 +1,4 @@
-#Cohen's d master table generator: Ai14 @ multiple q-value cutoffs
+# Cohen's d master table generator: Ai14 @ multiple q-value cutoffs
 
 import pandas as pd
 import numpy as np
@@ -8,31 +8,31 @@ import os
 # ==========================================
 # 1. FILE PATHS & SETUP
 # ==========================================
-input_file = r"C:\Users\ojles\Documents\Ai34_Project\corrected_df14_full.parquet"
-csv_info_file = r"C:\Users\ojles\Documents\Ai34_Project\CCFv3-2020_info_oliver_voxel_info.csv" 
+input_file = r"..\data\corrected_df14_full.parquet"
+csv_info_file = r"..\data\CCFv3-2020_info_oliver_voxel_info.csv"
 
-out_table1 = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Table1_RegionY_Allen.html"
-out_table2 = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Table2_Isocortex_Allen.html"
-out_table3 = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Table3_All_Subregions_Allen.html"
-out_table4 = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Table4_Condensed_Groups.html"
-out_table5 = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Table5_Cortical_Layers.html"
-out_excel_master = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Master_Tables_Formatted.xlsx"
-out_csv1 = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Mouse_Zscores_Condensed.csv"
-out_csv2 = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Mouse_Zscores_Layers.csv"
+out_table1 = r"..\output\Ai14_Table1_RegionY_Allen.html"
+out_table2 = r"..\output\Ai14_Table2_Isocortex_Allen.html"
+out_table3 = r"..\output\Ai14_Table3_All_Subregions_Allen.html"
+out_table4 = r"..\output\Ai14_Table4_Condensed_Groups.html"
+out_table5 = r"..\output\Ai14_Table5_Cortical_Layers.html"
+out_excel_master = r"..\output\Ai14_Master_Tables_Formatted.xlsx"
+out_csv1 = r"..\output\Ai14_Mouse_Zscores_Condensed.csv"
+out_csv2 = r"..\output\Ai14_Mouse_Zscores_Layers.csv"
 
 # ==========================================
 # 2. SIGNIFICANCE CLUSTER MASKS (Q-VALUE CUTOFFS)
 # ==========================================
 CLUSTER_FILES = {
-    'L_q05': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_LgtD_q005.parquet",
-    'L_q10': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_LgtD_q01.parquet",
-    'L_q15': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_LgtD_q015.parquet",
-    'L_q20': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_LgtD_q02.parquet",
+    'L_q05': r"..\output\Ai14_LgtD_q005.parquet",
+    'L_q10': r"..\output\Ai14_LgtD_q01.parquet",
+    'L_q15': r"..\output\Ai14_LgtD_q015.parquet",
+    'L_q20': r"..\output\Ai14_LgtD_q02.parquet",
     
-    'D_q05': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_DgtL_q005.parquet",
-    'D_q10': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_DgtL_q01.parquet",
-    'D_q15': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_DgtL_q015.parquet",
-    'D_q20': r"C:\Users\ojles\Documents\Ai34_Project\Ai14_DgtL_q02.parquet"
+    'D_q05': r"..\output\Ai14_DgtL_q005.parquet",
+    'D_q10': r"..\output\Ai14_DgtL_q01.parquet",
+    'D_q15': r"..\output\Ai14_DgtL_q015.parquet",
+    'D_q20': r"..\output\Ai14_DgtL_q02.parquet"
 }
 
 # ==========================================

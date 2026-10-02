@@ -12,12 +12,12 @@ import pyarrow.parquet as pq
 # ==========================================
 # 1. FILE PATHS & SETUP
 # ==========================================
-data_dir = r"C:\Users\ojles\Documents\Ai34_Project\Individual cFos+ mouse maps (BS) for Dan"
-out_dir = r"C:\Users\ojles\Documents\Ai34_Project"
+data_dir = r"..\data\Individual cFos+ mouse maps"
+out_dir = r"..\output"
 
-ref_file = r"C:\Users\ojles\Documents\Ai34_Project\corrected_df14_full.parquet"
-csv_info_file = r"C:\Users\ojles\Documents\Ai34_Project\CCFv3-2020_info_oliver_voxel_info.csv" 
-out_excel_master = r"C:\Users\ojles\Documents\Ai34_Project\Ai14_Scram_Master_Tables_TwoWay.xlsx"
+ref_file = r"..\data\corrected_df14_full.parquet"
+csv_info_file = r"..\data\CCFv3-2020_info_oliver_voxel_info.csv" 
+out_excel_master = r"..\output\Ai14_Scram_Master_Tables_TwoWay.xlsx"
 
 orig_files = [
     "Ai14+Light_sample12_cell_centroids_min6_s100_LRavg_sub_neg_z.nii.gz",
