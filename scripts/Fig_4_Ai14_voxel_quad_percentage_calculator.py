@@ -90,7 +90,9 @@ def get_base_group(region_y):
 def is_visual_area(abbrev):
     abbrev = str(abbrev)
     if abbrev.startswith('VIS') and not abbrev.startswith('VISC'): return True
-    if abbrev.startswith('LGd'): return True  # LGv explicitly removed
+    # ALL subregions of LGd and LGv, plus IGL
+    if abbrev.startswith('LGd') or abbrev.startswith('LGv') or abbrev == 'IGL': return True
+    # ALL subregions of SC (including SCdg)
     if abbrev == 'SC' or abbrev.startswith(('SCm', 'SCs', 'SCig', 'SCop', 'SCsg', 'SCzo', 'SCdw', 'SCiw', 'SCdg')): return True
     return False
 
@@ -108,6 +110,7 @@ subsets = {
     'CNU (Cerebral Nuclei)': df[df['Anatomy'] == 'CNU'],
     'IB (Interbrain)': df[df['Anatomy'] == 'IB'],
     'MB (Midbrain)': df[df['Anatomy'] == 'MB'],
+    # Visual system relies dynamically on the unified is_VS abbreviation filter
     'Visual System': df[df['is_VS']] 
 }
 
