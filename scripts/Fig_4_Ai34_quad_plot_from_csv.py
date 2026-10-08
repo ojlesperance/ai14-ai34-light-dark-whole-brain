@@ -79,10 +79,14 @@ df['Parent'] = df['Region'].map(abbrev_to_parent).fillna(df['Region'])
 df['Base_Group'] = df['Parent'].apply(get_base_group)
 df['is_VS'] = df.apply(lambda row: is_visual_area(row['Region'], row['Parent']), axis=1)
 
-df.loc[df['is_VS'] == True, 'Base_Group'] = 'VS'
+# Drop explicitly excluded and non-brain regions
 df = df[~df['Region'].astype(str).str.startswith(('MOB', 'AOB'))]
 df = df[df['Base_Group'] != 'Exclude'].copy()
+
+# Map native anatomical colors
 df['Plot_Color'] = df['Base_Group'].map(allen_colors)
+# Override the plotting color for visual areas so they are purple in the Whole Brain plot
+df.loc[df['is_VS'] == True, 'Plot_Color'] = allen_colors['VS']
 
 def format_label(region):
     if '-' in region: return region.replace('-', '\n')
@@ -110,9 +114,13 @@ for target_group in groups_to_plot:
     x_all = df['Avg_Cohens_d']
     y_all = df['Avg_Log2_Std_Ratio']
     
+    # Dynamically build the target mask so Base Groups aren't overwritten
     if target_group == 'Whole Brain':
         target_mask = pd.Series([True]*len(df), index=df.index)
         group_color = df['Plot_Color'] 
+    elif target_group == 'VS':
+        target_mask = df['is_VS'] == True
+        group_color = allen_colors['VS']
     else:
         target_mask = df['Base_Group'] == target_group
         group_color = allen_colors[target_group]
@@ -122,22 +130,25 @@ for target_group in groups_to_plot:
     # ----------------------------------------------------
     # FIXED AXES AND TICKS
     # ----------------------------------------------------
-    ax.set_xlim(-2.0, 2.0)
-    ax.set_ylim(-2.0, 2.0)
-    ax.set_xticks(np.arange(-2.0, 2.5, 0.5))
-    ax.set_yticks(np.arange(-2.0, 2.5, 0.5))
+    ax.set_xlim(-4.0, 4.0)
+    ax.set_ylim(-4.0, 4.0)
+    # Fixed tick range to span the full canvas up to 4.0
+    ax.set_xticks(np.arange(-4.0, 4.5, 0.5))
+    ax.set_yticks(np.arange(-4.0, 4.5, 0.5))
     
+    # Plot gray background dots
     if target_group != 'Whole Brain':
         ax.scatter(x_all[~target_mask], y_all[~target_mask], color='#D3D3D3', s=50, alpha=0.4, edgecolors='none')
     
+    # Plot target groups
     dot_size = 60 if target_group == 'Whole Brain' else 180
     dot_alpha = 0.7 if target_group == 'Whole Brain' else 0.55
     ax.scatter(df_target['Avg_Cohens_d'], df_target['Avg_Log2_Std_Ratio'], color=group_color, s=dot_size, alpha=dot_alpha, edgecolors='white', linewidth=0.5)
 
     if target_group != 'Whole Brain':
         for _, row in df_target.iterrows():
-            # Only add labels if the point is within the plotting boundaries to prevent clipping issues
-            if -2.0 <= row['Avg_Cohens_d'] <= 2.0 and -2.0 <= row['Avg_Log2_Std_Ratio'] <= 2.0:
+            # WIDENED BOUNDARY: Check against -4.0 and 4.0 to prevent clipping valid labels
+            if -4.0 <= row['Avg_Cohens_d'] <= 4.0 and -4.0 <= row['Avg_Log2_Std_Ratio'] <= 4.0:
                 stacked_name = format_label(row['Region'])
                 txt = ax.text(
                     row['Avg_Cohens_d'], row['Avg_Log2_Std_Ratio'], stacked_name, 

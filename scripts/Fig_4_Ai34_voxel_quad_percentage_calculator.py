@@ -1,4 +1,4 @@
-# Calculates % of Q1-4 voxels in each anatomical area, Ai34 (Memory Optimized)
+# Calculates % of Q1-4 voxels in each anatomical area, Ai34
 
 import pandas as pd
 import numpy as np
