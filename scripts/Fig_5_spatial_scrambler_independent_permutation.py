@@ -1,4 +1,4 @@
-# makes scrambled maps of individual mice, RH only (Strict PM Mask), same permutation applied to all
+# makes scrambled maps of individual mice, RH only (Strict PM Mask), independent random permutations
 
 import os
 import numpy as np
@@ -68,16 +68,11 @@ num_valid_voxels = np.sum(strict_hemi_mask)
 print(f"Strict Area of Interest defined. Found {num_valid_voxels} valid voxels to scramble.")
 
 # ==========================================
-# 5. GENERATE UNIVERSAL PERMUTATION
+# 5. INDEPENDENT SCRAMBLE & SAVE ITERATION
 # ==========================================
-# Create ONE permutation index to be applied identically to every mouse map
+# Setting seed outside the loop ensures the sequence of permutations is reproducible
 np.random.seed(42) 
-universal_permutation = np.random.permutation(num_valid_voxels)
-print("Universal spatial permutation array generated.")
 
-# ==========================================
-# 6. SCRAMBLE & SAVE ITERATION
-# ==========================================
 for file_path in nifti_files:
     print(f"Processing: {os.path.basename(file_path)}...")
     
@@ -93,8 +88,9 @@ for file_path in nifti_files:
     # 1. Extract ONLY the voxels inside the strict Pitman-Morgan mask
     valid_voxels = data[strict_hemi_mask]
     
-    # 2. Apply the UNIVERSAL permutation to those voxels
-    scrambled_voxels = valid_voxels[universal_permutation]
+    # 2. Generate an INDEPENDENT random permutation for this specific mouse
+    independent_permutation = np.random.permutation(num_valid_voxels)
+    scrambled_voxels = valid_voxels[independent_permutation]
     
     # 3. Create a copy of the original array (preserves excluded regions entirely untouched)
     scrambled_data = data.copy()
@@ -115,4 +111,4 @@ for file_path in nifti_files:
     nib.save(scrambled_img, new_file_path)
     print(f"  --> Saved: {new_file_name}")
 
-print("\nSuccess! All maps have been spatially scrambled strictly within the defined Area of Interest using an identical universal permutation.")
+print("\nSuccess! All maps have been spatially scrambled independently within the defined Area of Interest.")
